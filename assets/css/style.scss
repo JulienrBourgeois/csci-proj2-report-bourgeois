@@ -1,0 +1,39 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Cayman never sets a page background. Lock light so dark mode
+   and Print-to-PDF do not invert the canvas under gray body text. */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: #fff;
+  color: #606c71;
+}
+
+.main-content {
+  background-color: #fff;
+}
+
+.main-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media print {
+  html,
+  body,
+  .main-content {
+    background-color: #fff;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .btn {
+    display: none;
+  }
+}
