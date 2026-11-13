@@ -8,7 +8,7 @@ This project trains a small velocity network to carry Gaussian noise onto a targ
 
 The PDF of this same write-up is [report.pdf](report.pdf). The animation is in Part 2.
 
-Time 0 is noise and time 1 is data. A training pair uses x_t = (1 - t) x_0 + t x_1 and the target velocity u = x_1 - x_0. The loss is the mean of ||v(x_t, t) - u||^2 over the batch. At generation the network sees only (x_t, t). It does not receive x_1. The sampler is explicit Euler: z starts at a fresh Gaussian draw, and z next equals z plus dt times v(z, t), with t_k = k / n_steps and dt = 1 / n_steps. The network is evaluated at the start of each step, so a run with P particles and K steps costs P times K evaluations.
+Time 0 is noise and time 1 is data. A training pair uses x_t = (1 - t) x_0 + t x_1 and the target velocity u = x_1 - x_0. The loss is the mean of `||v(x_t, t) - u||^2` over the batch. At generation the network sees only (x_t, t). It does not receive x_1. The sampler is explicit Euler: z starts at a fresh Gaussian draw, and z next equals z plus dt times v(z, t), with t_k = k / n_steps and dt = 1 / n_steps. The network is evaluated at the start of each step, so a run with P particles and K steps costs P times K evaluations.
 
 ## Setup
 
@@ -31,7 +31,7 @@ The first path in the figure starts at (-0.5108, 1.0283) and ends at (-1.4724, 0
 
 ### Task 2: Training
 
-Training took 16.052 seconds for 12000 steps. The first batch loss is 4.7361. The mean of the last 500 batch losses is 3.4847. On 20,000 independent pairs, the mean of ||x_1 - x_0||^2 is 4.9096. A network that predicts the zero velocity would sit near that number. The trained mean, 3.4847, is lower, and it is still far from zero. The loss does not have to go to zero. Each pair is one random match. Different targets can be tied to sources that pass near the same point at the same time, and those pairs ask for different velocities. The network only sees (x, t), so the value it can fit is an average. The squared error of that average stays positive. The curve in the figure flattens in that range.
+Training took 16.052 seconds for 12000 steps. The first batch loss is 4.7361. The mean of the last 500 batch losses is 3.4847. On 20,000 independent pairs, the mean of `||x_1 - x_0||^2` is 4.9096. A network that predicts the zero velocity would sit near that number. The trained mean, 3.4847, is lower, and it is still far from zero. The loss does not have to go to zero. Each pair is one random match. Different targets can be tied to sources that pass near the same point at the same time, and those pairs ask for different velocities. The network only sees (x, t), so the value it can fit is an average. The squared error of that average stays positive. The curve in the figure flattens in that range.
 
 ![Part 1 batch loss. The pale line is one batch. The blue line is a 100-batch mean.](figures/part1_loss.png)
 
@@ -67,7 +67,7 @@ The Part 2 target is a thick letter J drawn in code. It is original procedural g
 
 The stem runs from x = 0.35 to x = 1.10 and from y = -0.25 to y = 1.85. The hook is an annular sector centered at (-0.15, -0.25), with inner radius 0.50 and outer radius 1.25. The angle covers the lower half of that annulus and 0.55 radians of upward curl on the left. The sampler draws uniformly in a box just outside that geometry and keeps the points inside the letter. A sample of 20000 points has x in [-1.400, 1.100] and y in [-1.499, 1.850]. The largest radius in that sample is 2.143, and the mean radius is 1.133. This is a separate model from the ring. It uses the same architecture.
 
-Training took 29.534 seconds for 20000 steps, seed 7. The first batch loss is 3.2345. The mean of the last 500 batch losses is 2.2997. The mean of ||x_1 - x_0||^2 on 20,000 independent pairs is 3.4172. The trained loss is below that zero-velocity level and remains well above zero, for the same reason as in Part 1. The checkpoint is checkpoints/baseline_seed7.pt.
+Training took 29.534 seconds for 20000 steps, seed 7. The first batch loss is 3.2345. The mean of the last 500 batch losses is 2.2997. The mean of `||x_1 - x_0||^2` on 20,000 independent pairs is 3.4172. The trained loss is below that zero-velocity level and remains well above zero, for the same reason as in Part 1. The checkpoint is checkpoints/baseline_seed7.pt.
 
 ![Twenty thousand samples from the letter J sampler.](figures/part2_target.png)
 
